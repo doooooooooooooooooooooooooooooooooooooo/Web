@@ -12,6 +12,16 @@
           {@content.title}
         </h1>
 
+        <%= if @content.cover_image do %>
+          <div class="mb-6">
+            <img
+              src={@content.cover_image}
+              alt={@content.title}
+              class="w-full max-w-2xl h-auto rounded-lg border shadow-sm"
+            />
+          </div>
+        <% end %>
+
         <div class="flex items-center space-x-4 mb-6 text-sm text-gray-500">
           <span>{@content.category || "未分类"}</span>
           <span>•</span>
