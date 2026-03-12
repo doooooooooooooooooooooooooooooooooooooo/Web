@@ -1,0 +1,52 @@
+<Layouts.app flash={@flash}>
+  <div class="min-h-screen bg-gray-50 py-8">
+    <div class="max-w-4xl mx-auto px-4">
+      <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
+        <div class="mb-6">
+          <.link href={~p"/contents"} class="text-blue-600 hover:text-blue-900">
+            ← 返回列表
+          </.link>
+        </div>
+
+        <h1 class="text-4xl font-bold text-gray-900 mb-4">
+          {@content.title}
+        </h1>
+
+        <div class="flex items-center space-x-4 mb-6 text-sm text-gray-500">
+          <span>{@content.category || "未分类"}</span>
+          <span>•</span>
+          <span>{Calendar.strftime(@content.inserted_at, "%Y-%m-%d %H:%M")}</span>
+          <span>•</span>
+          <span class={[
+            "inline-flex px-2 py-1 text-xs font-semibold rounded-full",
+            @content.status == "published" && "bg-green-100 text-green-800",
+            @content.status == "draft" && "bg-yellow-100 text-yellow-800"
+          ]}>
+            {@content.status}
+          </span>
+        </div>
+
+        <div class="prose prose-sm max-w-none mb-8">
+          {raw(String.replace(@content.body, "\n", "<br>"))}
+        </div>
+
+        <div class="flex space-x-3 border-t pt-6">
+          <.link
+            href={~p"/contents/#{@content.id}/edit"}
+            class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md font-medium"
+          >
+            编辑
+          </.link>
+          <.link
+            href={~p"/contents/#{@content.id}"}
+            method="delete"
+            data-confirm="确定删除？"
+            class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md font-medium"
+          >
+            删除
+          </.link>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layouts.app>

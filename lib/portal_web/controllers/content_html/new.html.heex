@@ -1,0 +1,46 @@
+<Layouts.app flash={@flash}>
+  <div class="min-h-screen bg-gray-50 py-8">
+    <div class="max-w-2xl mx-auto px-4">
+      <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <h1 class="text-2xl font-bold text-gray-900 mb-6">新建内容</h1>
+
+        <.form :let={f} for={@changeset} action={~p"/contents"} class="space-y-6">
+          <.input field={f[:title]} type="text" label="标题 *" placeholder="输入内容标题" />
+          <.input
+            field={f[:body]}
+            type="textarea"
+            label="内容 *"
+            placeholder="输入内容正文"
+          />
+          <.input
+            field={f[:category]}
+            type="text"
+            label="分类"
+            placeholder="例如：新闻、技术、公告等"
+          />
+          <.input
+            field={f[:status]}
+            type="select"
+            label="状态"
+            options={[{"草稿", "draft"}, {"发布", "published"}]}
+          />
+
+          <div class="flex justify-end space-x-3">
+            <.link
+              href={~p"/contents"}
+              class="bg-gray-300 hover:bg-gray-400 text-gray-700 px-4 py-2 rounded-md font-medium"
+            >
+              取消
+            </.link>
+            <button
+              type="submit"
+              class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md font-medium"
+            >
+              保存
+            </button>
+          </div>
+        </.form>
+      </div>
+    </div>
+  </div>
+</Layouts.app>
