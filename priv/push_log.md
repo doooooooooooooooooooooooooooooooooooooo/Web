@@ -26,3 +26,9 @@
 - Changes: 22 files changed, 358 insertions(+), 239 deletions(-)
 - Features: Admin/public separation, slug-based routing, image upload system
 - Status: Successfully pushed to remote repository
+
+## Bug Fixes Commit (March 12, 2026)
+- Commit: `3d769fd` - "Fix critical issues: image serving and page width constraints"
+- Changes: Removed max-w-2xl constraint from Layouts.app component
+- Issues Fixed: Images now serve correctly, pages can use full width
+- Status: Successfully pushed to remote repository

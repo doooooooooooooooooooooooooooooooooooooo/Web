@@ -29,38 +29,28 @@ defmodule PortalWeb.Admin.ContentController do
     render(conn, :new, changeset: changeset)
   end
 
-  # 处理文件上传并返回参数
-  defp handle_file_upload(params) do
-    case params["cover_image"] do
-      %Plug.Upload{} = upload ->
-        # 生成唯一的文件名
-        extension = Path.extname(upload.filename)
-        filename = "#{Ecto.UUID.generate()}#{extension}"
-        upload_path = Path.join("priv/static/uploads", filename)
-
-        # 确保上传目录存在
-        File.mkdir_p!(Path.dirname(upload_path))
-
-        # 复制文件到上传目录
-        case File.cp(upload.path, upload_path) do
-          :ok ->
-            # 返回相对路径用于数据库存储
-            Map.put(params, "cover_image", "/uploads/#{filename}")
-
-          {:error, _reason} ->
-            params
-        end
+  # 处理文件上传
+  defp handle_upload(conn, content_params) do
+    case Map.get(conn.params, "cover_image") do
+      %Plug.Upload{path: path, filename: filename} ->
+        # 真正有文件上传
+        ext = Path.extname(filename)
+        new_filename = "#{System.system_time(:second)}#{ext}"
+        dest = Path.join(["priv", "static", "uploads", new_filename])
+        File.cp!(path, dest)
+        Map.put(content_params, "cover_image", "/uploads/#{new_filename}")
 
       _ ->
-        params
+        # 没有文件，保持原样
+        content_params
     end
   end
 
   # 处理新建表单提交
   def create(conn, %{"content" => content_params}) do
-    processed_params = handle_file_upload(content_params)
+    content_params = handle_upload(conn, content_params)
 
-    case Contents.create_content(processed_params) do
+    case Contents.create_content(content_params) do
       {:ok, _content} ->
         conn
         |> put_flash(:info, "内容创建成功")
@@ -94,9 +84,9 @@ defmodule PortalWeb.Admin.ContentController do
         |> redirect(to: ~p"/admin/contents")
 
       content ->
-        processed_params = handle_file_upload(content_params)
+        content_params = handle_upload(conn, content_params)
 
-        case Contents.update_content(content, processed_params) do
+        case Contents.update_content(content, content_params) do
           {:ok, _content} ->
             conn
             |> put_flash(:info, "内容更新成功")
