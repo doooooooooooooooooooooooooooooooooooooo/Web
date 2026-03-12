@@ -8,9 +8,24 @@ defmodule Portal.Contents do
     Repo.all(from(c in Content, order_by: [desc: c.inserted_at]))
   end
 
+  # 获取已发布的内容
+  def list_published do
+    Repo.all(
+      from c in Content,
+        where: c.status == "published",
+        order_by: [desc: c.inserted_at],
+        limit: 10
+    )
+  end
+
   # 获取单个内容
   def get_content(id) do
     Repo.get(Content, id)
+  end
+
+  # 根据 slug 获取已发布的内容
+  def get_content_by_slug(slug) do
+    Repo.get_by(Content, slug: slug, status: "published")
   end
 
   # 创建内容

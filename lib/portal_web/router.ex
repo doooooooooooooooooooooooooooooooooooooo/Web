@@ -14,13 +14,15 @@ defmodule PortalWeb.Router do
     plug(:accepts, ["json"])
   end
 
-  scope "/", PortalWeb do
-    pipe_through(:browser)
+  scope "/admin", PortalWeb.Admin do
+    pipe_through :browser
+    resources "/contents", ContentController
+  end
 
-    resources("/contents", ContentController)
-
-    # 首页重定向到内容列表
-    get("/", ContentController, :index)
+  scope "/", PortalWeb.Page do
+    pipe_through :browser
+    get "/", HomeController, :index
+    get "/articles/:slug", ArticleController, :show
   end
 
   # Other scopes may use custom stacks.

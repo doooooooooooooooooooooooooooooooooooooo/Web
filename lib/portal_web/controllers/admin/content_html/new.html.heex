@@ -2,16 +2,22 @@
   <div class="min-h-screen bg-gray-50 py-8">
     <div class="max-w-2xl mx-auto px-4">
       <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-        <h1 class="text-2xl font-bold text-gray-900 mb-6">编辑内容</h1>
+        <h1 class="text-2xl font-bold text-gray-900 mb-6">新建内容</h1>
 
         <.form
           :let={f}
           for={@changeset}
-          action={~p"/contents/#{@content.id}"}
-          method="put"
+          action={~p"/admin/contents"}
+          enctype="multipart/form-data"
           class="space-y-6"
         >
           <.input field={f[:title]} type="text" label="标题 *" placeholder="输入内容标题" />
+          <.input
+            field={f[:slug]}
+            type="text"
+            label="Slug *"
+            placeholder="url-friendly-identifier"
+          />
           <.input
             field={f[:body]}
             type="textarea"
@@ -25,6 +31,12 @@
             placeholder="例如：新闻、技术、公告等"
           />
           <.input
+            field={f[:cover_image]}
+            type="file"
+            label="封面图片"
+            accept="image/*"
+          />
+          <.input
             field={f[:status]}
             type="select"
             label="状态"
@@ -33,7 +45,7 @@
 
           <div class="flex justify-end space-x-3">
             <.link
-              href={~p"/contents"}
+              href={~p"/admin/contents"}
               class="bg-gray-300 hover:bg-gray-400 text-gray-700 px-4 py-2 rounded-md font-medium"
             >
               取消

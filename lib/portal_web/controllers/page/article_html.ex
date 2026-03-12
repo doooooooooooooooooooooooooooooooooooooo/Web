@@ -1,6 +1,6 @@
-defmodule PortalWeb.Page.HomeHTML do
+defmodule PortalWeb.Page.ArticleHTML do
   @moduledoc """
-  This module contains pages rendered by Page.HomeController.
+  This module contains pages rendered by Page.ArticleController.
 
   See the `page_html` directory for all templates available.
   """
