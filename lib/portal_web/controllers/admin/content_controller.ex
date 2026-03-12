@@ -30,8 +30,8 @@ defmodule PortalWeb.Admin.ContentController do
   end
 
   # 处理文件上传
-  defp handle_upload(conn, content_params) do
-    case Map.get(conn.params, "cover_image") do
+  defp handle_upload(content_params) do
+    case Map.get(content_params, "cover_image") do
       %Plug.Upload{path: path, filename: filename} ->
         # 真正有文件上传
         ext = Path.extname(filename)
@@ -41,14 +41,14 @@ defmodule PortalWeb.Admin.ContentController do
         Map.put(content_params, "cover_image", "/uploads/#{new_filename}")
 
       _ ->
-        # 没有文件，保持原样
-        content_params
+        # 没有文件，删掉这个 key，避免 cast 收到 Plug.Upload
+        Map.delete(content_params, "cover_image")
     end
   end
 
   # 处理新建表单提交
   def create(conn, %{"content" => content_params}) do
-    content_params = handle_upload(conn, content_params)
+    content_params = handle_upload(content_params)
 
     case Contents.create_content(content_params) do
       {:ok, _content} ->
@@ -84,7 +84,7 @@ defmodule PortalWeb.Admin.ContentController do
         |> redirect(to: ~p"/admin/contents")
 
       content ->
-        content_params = handle_upload(conn, content_params)
+        content_params = handle_upload(content_params)
 
         case Contents.update_content(content, content_params) do
           {:ok, _content} ->

@@ -32,3 +32,9 @@
 - Changes: Removed max-w-2xl constraint from Layouts.app component
 - Issues Fixed: Images now serve correctly, pages can use full width
 - Status: Successfully pushed to remote repository
+
+## Layout and Upload Fixes (March 12, 2026)
+- Commit: `84a2c58` - "Fix layout padding and image upload handling"
+- Changes: Removed horizontal padding from Layouts.app, rewrote upload logic
+- Issues Fixed: Pages now full width, image uploads work correctly
+- Status: Successfully pushed to remote repository
