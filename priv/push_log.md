@@ -38,3 +38,9 @@
 - Changes: Removed horizontal padding from Layouts.app, rewrote upload logic
 - Issues Fixed: Pages now full width, image uploads work correctly
 - Status: Successfully pushed to remote repository
+
+## Image Upload Form Structure Fix (March 12, 2026)
+- Commit: `852a879` - "Fix image upload form field structure"
+- Changes: Fixed form field names, updated upload handling logic
+- Issues Fixed: Plug.Upload objects no longer reach changeset, uploads work properly
+- Status: Successfully pushed to remote repository
