@@ -43,7 +43,7 @@ defmodule PortalWeb.Layouts do
     </header>
     <main class="px-6 py-6">
       <.flash_group flash={@flash} />
-      {@inner_content}
+      {render_slot(@inner_block)}
     </main>
     """
   end
